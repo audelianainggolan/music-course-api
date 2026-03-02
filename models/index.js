@@ -1,9 +1,11 @@
 const Student = require('./student');
 const Teacher = require('./teacher');
+const User = require('./user');
 
 module.exports = {
     Student,
-    Teacher
+    Teacher,
+    User
 };
 
 //kalo mau export banyak model, bisa pake cara ini, 
