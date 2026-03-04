@@ -1,7 +1,9 @@
 require('dotenv').config();
+
 const express = require('express');
-const app = express();
 const port = process.env.PORT || 3000;
+const passport = require('./helpers/passport'); // Pastikan path ke helper passport benar
+const app = express();
 
 // Koneksi Database
 require('./configurations/mongoConnection');
@@ -10,19 +12,18 @@ require('./configurations/mongoConnection');
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Import Routes
-const authRoutes = require('./controllers/auth');
-const studentRoutes = require('./controllers/student');
-const teacherRoutes = require('./controllers/teacher');
+app.use(passport.initialize());
 
-// Pasang Routes
-app.use('/', authRoutes);
-app.use('/students', studentRoutes);
-app.use('/teachers', teacherRoutes);
+// IMPORT CENTRAL ROUTER
+const router = require('./routes'); // Otomatis membaca index.js di folder routes
 
-app.get('/', (req, res) => res.send('API is running...'));
+// PASANG ROUTER
+app.use(router);
 
-// ERROR HANDLER (WAJIB PALING BAWAH SETELAH SEMUA ROUTES)
+// Default Route
+app.get('/', (req, res) => res.send('Music Courses API is running...'));
+
+// ERROR HANDLER
 const errorHandler = require('./middlewares/errorHandler');
 app.use(errorHandler);
 

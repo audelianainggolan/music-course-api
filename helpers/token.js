@@ -5,5 +5,11 @@ const generateToken = (payload) => {
     return jwt.sign(payload, secret);
 }
 
-// Ekspor sebagai OBJEK agar konsisten dengan helper password
-module.exports = { generateToken };
+const decodedToken = (token) => { 
+    const decoded = jwt.verify(token, secret)
+    console.log(decoded)
+    return decoded
+}
+
+
+module.exports = { generateToken, decodedToken };
